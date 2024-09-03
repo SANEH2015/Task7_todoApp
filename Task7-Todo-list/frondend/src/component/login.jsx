@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import image from '../assets/lg-removebg-preview.png'
 
 
-function Register() {
+function Login() {
   return (
     <>
     <div>
@@ -14,10 +14,13 @@ function Register() {
            <Link to={'/Landingpage'} ><a  style={{ textDecoration: 'none', color: '#333' }}>Home</a></Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
-          <Link to={'/login'} > <a style={{ textDecoration: 'none', color: '#333' }}>Login</a></Link> 
+          <Link to={'/Register'} > <a style={{ textDecoration: 'none', color: '#333' }}>Register</a></Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
           <Link to={'/Contact'} > <a style={{ textDecoration: 'none', color: '#333' }}>Contact</a></Link> 
+          </li>
+          <li style={{ marginRight: '20px' }}>
+          <Link to={'/Todo'} > <a style={{ textDecoration: 'none', color: '#333' }}>Todo</a></Link> 
           </li>
         </ul>
       </nav>
@@ -30,7 +33,7 @@ function Register() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Register</h2>
+            <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Login</h2>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <span style={{ marginRight: '5px' }}>👤</span>
               <input type="text" placeholder="User name / Email" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
@@ -39,7 +42,7 @@ function Register() {
               <span style={{ marginRight: '5px' }}>🔒</span>
               <input type="password" placeholder="Password" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
-            <button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Register</button>
+            <Link to={'Todo'}><button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Log In Now</button></Link>
           </div>
 
          
@@ -67,4 +70,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

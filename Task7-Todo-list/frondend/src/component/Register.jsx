@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import image from '../assets/lg-removebg-preview.png'
 
 
-function Login() {
+function Register() {
   return (
     <>
     <div>
@@ -14,7 +14,7 @@ function Login() {
            <Link to={'/Landingpage'} ><a  style={{ textDecoration: 'none', color: '#333' }}>Home</a></Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
-          <Link to={'/Register'} > <a style={{ textDecoration: 'none', color: '#333' }}>Register</a></Link> 
+          <Link to={'/login'} > <a style={{ textDecoration: 'none', color: '#333' }}>Login</a></Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
           <Link to={'/Contact'} > <a style={{ textDecoration: 'none', color: '#333' }}>Contact</a></Link> 
@@ -30,16 +30,24 @@ function Login() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Login</h2>
+            <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Register</h2>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-              <span style={{ marginRight: '5px' }}>👤</span>
+              <span style={{ marginRight: '5px' }}></span>
+              <input type="text" placeholder="Name" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              <span style={{ marginRight: '5px' }}></span>
+              <input type="text" placeholder="Phone number" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              <span style={{ marginRight: '5px' }}></span>
               <input type="text" placeholder="User name / Email" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-              <span style={{ marginRight: '5px' }}>🔒</span>
+              <span style={{ marginRight: '5px' }}></span>
               <input type="password" placeholder="Password" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
-            <button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Log In Now</button>
+            <button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Register</button>
           </div>
 
          
@@ -67,4 +75,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
