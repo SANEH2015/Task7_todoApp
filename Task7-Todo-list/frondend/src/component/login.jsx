@@ -1,9 +1,33 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link,useNavigate } from "react-router-dom";
 import image from '../assets/lg-removebg-preview.png'
-
+import axios from 'axios';
 
 function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:3001/users', {
+        username,
+        password,
+      });
+
+      if (response.data.message === 'Login successful') {
+        // Login successful, redirect to dashboard or whatever
+        console.log('Login successful!');
+        navigate('/Todo');
+      } else {
+        setError(response.data.error);
+      }
+    } catch (error) {
+      setError('Failed to login');
+    }
+  };
   return (
     <>
     <div>
@@ -11,13 +35,13 @@ function Login() {
         <img style={{width:"100px",height:"100px"}} src={image}></img>
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex' }}>
           <li style={{ marginRight: '20px' }}>
-           <Link to={'/Landingpage'} ><a  style={{ textDecoration: 'none', color: '#333' }}>Home</a></Link> 
+           <Link to={'/Landingpage'}style={{ textDecoration: 'none', color: '#333' }}  >Home</Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
-          <Link to={'/Register'} > <a style={{ textDecoration: 'none', color: '#333' }}>Register</a></Link> 
+          <Link to={'/Register'} style={{ textDecoration: 'none', color: '#333' }}> Register</Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
-          <Link to={'/Contact'} > <a style={{ textDecoration: 'none', color: '#333' }}>Contact</a></Link> 
+          <Link to={'/Contact'} style={{ textDecoration: 'none', color: '#333' }} > Contact</Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
           <Link to={'/Todo'} > <a style={{ textDecoration: 'none', color: '#333' }}>Todo</a></Link> 
@@ -32,18 +56,18 @@ function Login() {
             <div style={{ backgroundColor: '#d9d9f7', height: '200px', width: '100%', borderRadius: '10px', position: 'absolute', top: '-5px', zIndex: '-2' }} />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Login</h2>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <span style={{ marginRight: '5px' }}>👤</span>
-              <input type="text" placeholder="User name / Email" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+              <input type="text" placeholder="User name / Email" value={username} onChange={(e) => setUsername(e.target.value)} style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
               <span style={{ marginRight: '5px' }}>🔒</span>
-              <input type="password" placeholder="Password" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+              <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}  style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
-            <Link to={'Todo'}><button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Log In Now</button></Link>
-          </div>
+          <button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Log In Now</button>
+          </form>
 
          
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>

@@ -1,9 +1,63 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link,useNavigate } from "react-router-dom";
 import image from '../assets/lg-removebg-preview.png'
-
+import axios from 'axios';
 
 function Register() {
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [users,setUsers]=useState('')
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/register');
+            setUsers(response.data);
+        } catch   
+(error) {
+            console.error('Error fetching register:', error);
+        }
+    };
+    fetchUsers();
+}, []);
+ 
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  console.log('Form submitted');
+
+  try {
+    if (!name || !phoneNumber || !username || !password) {
+      setError('All fields are required');
+      return;
+    }
+
+    const response = await axios.post('http://localhost:3001/register', {
+      name,
+      phoneNumber,
+      username,
+      password,
+    });
+
+    console.log('API response:', response);
+
+    if (response.status === 201) {
+      setSuccess('Registration successful!');
+      navigate('/login'); // Redirect to login page after successful registration
+      // You can redirect to login page here
+    } else {
+      setError(response.data.error);
+    }
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    setError('An error occurred. Please try again.');
+  }
+};
+
   return (
     <>
     <div>
@@ -11,13 +65,13 @@ function Register() {
         <img style={{width:"100px",height:"100px"}} src={image}></img>
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex' }}>
           <li style={{ marginRight: '20px' }}>
-           <Link to={'/Landingpage'} ><a  style={{ textDecoration: 'none', color: '#333' }}>Home</a></Link> 
+           <Link to={'/Landingpage'}  style={{ textDecoration: 'none', color: '#333' }}> Home</Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
-          <Link to={'/login'} > <a style={{ textDecoration: 'none', color: '#333' }}>Login</a></Link> 
+          <Link to={'/login'} style={{ textDecoration: 'none', color: '#333' }}>Login</Link> 
           </li>
           <li style={{ marginRight: '20px' }}>
-          <Link to={'/Contact'} > <a style={{ textDecoration: 'none', color: '#333' }}>Contact</a></Link> 
+          <Link to={'/Contact'} style={{ textDecoration: 'none', color: '#333' }}> Contact</Link> 
           </li>
         </ul>
       </nav>
@@ -29,28 +83,26 @@ function Register() {
             <div style={{ backgroundColor: '#d9d9f7', height: '200px', width: '100%', borderRadius: '10px', position: 'absolute', top: '-5px', zIndex: '-2' }} />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <form onSubmit={handleSubmit}   style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Register</h2>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <span style={{ marginRight: '5px' }}></span>
-              <input type="text" placeholder="Name" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+              <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <span style={{ marginRight: '5px' }}></span>
-              <input type="text" placeholder="Phone number" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+              <input type="text" placeholder="Phone number" value={phoneNumber}  onChange={(e)=>setPhoneNumber(e.target.value)}   style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <span style={{ marginRight: '5px' }}></span>
-              <input type="text" placeholder="User name / Email" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+              <input type="text" placeholder="User name / Email"value={username} onChange={(e)=>setUsername(e.target.value)} style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
               <span style={{ marginRight: '5px' }}></span>
-              <input type="password" placeholder="Password" style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
+              <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)}  style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
             </div>
             <button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Register</button>
-          </div>
-
-         
+          </form>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
             <a href="#" style={{ marginRight: '10px', display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
               <i className="fa fa-instagram" aria-hidden="true" style={{ fontSize: '20px', color: '#2196F3' }} />
