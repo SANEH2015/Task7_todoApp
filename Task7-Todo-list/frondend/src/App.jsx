@@ -14,17 +14,20 @@ import Register from './component/Register'
 import Layout from './component/Layout'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [userid,setUserid] = useState('');
+  function todo(id){
+    setUserid(id)
+  }
   return (
     <>
        <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>
         <Route index element={<Landingpage/>}/>
-          <Route path="login" element={<Login />} />
+          <Route path="login" element={<Login setUser={todo}/>} />
           <Route path="Register" element={<Register />} />
           <Route path="Landingpage" element={<Landingpage />} />
-          <Route path="Todo" element={<Todo />} />
+          <Route path="Todo" element={<Todo userid={userid} />} />
           <Route path="About" element={<About />} />
           <Route path="Contact" element={<Contact />} />
           <Route path="*" element={<Nopage />} />
