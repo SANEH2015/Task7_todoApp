@@ -5,11 +5,11 @@
 Clone the project
 
 ```bash
-  git clone https://github.com/Amniei/Shopping-List.git
+  git clone https://github.com/SANEH2015/Task7_todoApp.git
 ```
 Go to the project directory
 ```bash
-  cd Shopping-List
+  cd frondend 
 ```
 Install dependencies
 ```bash
