@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import image from '../assets/lg-removebg-preview.png';
 import axios from 'axios';
@@ -12,42 +12,44 @@ function Register() {
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch users (if needed for other parts of the app)
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/register');
-        setUsers(response.data);
-      } catch (error) {
-        console.error('Error fetching register:', error);
-      }
-    };
-    fetchUsers();
-  }, []);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
     setSuccess(null);
-
+  
+    // Basic validation
+    if (!name || !phoneNumber || !username || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+  
     try {
-      const response = await fetch('http://localhost:3001/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phoneNumber, username, password }),
+      const response = await axios.post('http://localhost:3001/register', {
+        name,
+        phoneNumber,
+        username,
+        password,
       });
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(data.message);
-        // Redirect to login page or other page after successful registration
+  
+      console.log('API Response:', response);
+  
+      // Check if status code is 200
+      if (response.status === 201) {
+        setSuccess(response.data.message);
         navigate('/login');
       } else {
-        setError(data.error || 'Registration failed');
+        setError(response.data.error );
       }
     } catch (error) {
-      console.error(error);
-      setError('An error occurred');
+      console.error('API Error:', error);
+  
+      if (error.response) {
+        setError(error.response.data.error || 'An error occurred');
+      } else if (error.request) {
+        setError('No response from server');
+      } else {
+        setError('An error occurred');
+      }
     }
   };
 
@@ -78,6 +80,7 @@ function Register() {
 
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
                 <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>Register</h2>
+                <h6>Please put your own information to register</h6>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 {success && <p style={{ color: 'green' }}>{success}</p>}
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
@@ -92,7 +95,7 @@ function Register() {
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                   <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px', width: '100%', maxWidth: '300px' }} />
                 </div>
-                <button style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Register</button>
+                <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Register</button>
               </form>
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
                 <a href="#" style={{ marginRight: '10px', display: 'flex', alignItems: 'center', textDecoration: 'none' }}>

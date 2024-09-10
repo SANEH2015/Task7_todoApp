@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Checkbox, notification } from 'antd'; // Import notification
+import { Form, Input, Button, Checkbox, notification } from 'antd'; 
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import image from '../assets/lg-removebg-preview.png';
@@ -13,7 +13,7 @@ function Login({ setUser }) {
 
     try {
       const response = await axios.post('http://localhost:3001/login', { username, password });
-      console.log(response.data); // Handle success (e.g., redirect or show a message)
+      console.log(response.data); // Handle success 
 
       // Call the function to set user info
       setUser(response.data.id);
@@ -45,18 +45,19 @@ function Login({ setUser }) {
               <Link to={'/Contact'} style={{ textDecoration: 'none', color: '#333' }}>Contact</Link>
             </li>
             <li style={{ marginRight: '20px' }}>
-              <Link to={'/Todo'} style={{ textDecoration: 'none', color: '#333' }}>Todo</Link>
+              {/* <Link to={'/Todo'} style={{ textDecoration: 'none', color: '#333' }}>Todo</Link> */}
             </li>
           </ul>
         </nav>
-        <div style={{ padding: '20px', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div style={{ backgroundColor: '#fff', borderRadius: '10px', padding: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', width: "500px" }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ width: '100%', position: 'relative' }}>
                 <div style={{ backgroundColor: '#e0e0f4', height: '200px', width: '100%', borderRadius: '10px', position: 'absolute', top: '-10px', zIndex: '-1' }} />
                 <div style={{ backgroundColor: '#d9d9f7', height: '200px', width: '100%', borderRadius: '10px', position: 'absolute', top: '-5px', zIndex: '-2' }} />
               </div>
-
+               <h3>Login form</h3>
+               <h6>Please use your details to login </h6>
               <Form
                 name="normal_login"
                 className="login-form"
