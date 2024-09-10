@@ -130,6 +130,25 @@ app.post('/register', (req, res) => {
   }
 });
 
+app.post('/register', async (req, res) => {
+  const { name, phoneNumber, username, password } = req.body;
+
+ // Check if user already exists
+ const existingUser = db.prepare('SELECT * FROM register WHERE username = ?').get(username);
+ if (existingUser) {
+   return res.status(409).json({ error: 'User already registered' });
+ }
+
+ // Insert new user
+ const sql = 'INSERT INTO register (name, phoneNumber, username, password) VALUES (?, ?, ?, ?)';
+ try {
+   db.prepare(sql).run(name, phoneNumber, username, password);
+   res.status(201).json({ message: 'User registered successfully' });
+ } catch (error) {
+   console.error('Database error:', error);
+   res.status(500).json({ error: 'Failed to register user' });
+ }
+});
 //get
   // Get all users
 app.get('/register', (req, res) => {

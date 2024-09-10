@@ -16,13 +16,13 @@ function Register() {
     event.preventDefault();
     setError(null);
     setSuccess(null);
-  
+
     // Basic validation
     if (!name || !phoneNumber || !username || !password) {
       setError('Please fill in all fields');
       return;
     }
-  
+
     try {
       const response = await axios.post('http://localhost:3001/register', {
         name,
@@ -30,21 +30,37 @@ function Register() {
         username,
         password,
       });
-  
+
       console.log('API Response:', response);
-  
-      // Check if status code is 200
+
+      // Check if status code is 201
       if (response.status === 201) {
         setSuccess(response.data.message);
-        navigate('/login');
-      } else {
-        setError(response.data.error );
+
+        // Clear form fields after successful registration
+        setName('');
+        setPhoneNumber('');
+        setUsername('');
+        setPassword('');
+
+        // Navigate to login page after showing success message
+        setTimeout(() => navigate('/login'), 2000); // Delay navigation to allow the user to see the success message
+       
       }
     } catch (error) {
       console.error('API Error:', error);
-  
+      notification.error({
+        description: error.response?.data?.error || 'Invalid username or password. Please try again.',
+      });
       if (error.response) {
-        setError(error.response.data.error || 'An error occurred');
+        if (error.response.status === 500) {
+          // Handle the case where the user is already registered
+          setError(error.response.data.error || 'User already registered');
+        } else {
+          setError(error.response.data.error || 'An error occurred');
+      
+          
+        }
       } else if (error.request) {
         setError('No response from server');
       } else {
@@ -60,13 +76,13 @@ function Register() {
           <img style={{ width: "100px", height: "100px" }} src={image} alt="logo" />
           <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex' }}>
             <li style={{ marginRight: '20px' }}>
-              <Link to={'/Landingpage'} style={{ textDecoration: 'none', color: '#333' }}> Home</Link>
+              <Link to={'/Landingpage'} style={{ textDecoration: 'none', color: '#333' }}>Home</Link>
             </li>
             <li style={{ marginRight: '20px' }}>
               <Link to={'/login'} style={{ textDecoration: 'none', color: '#333' }}>Login</Link>
             </li>
             <li style={{ marginRight: '20px' }}>
-              <Link to={'/Contact'} style={{ textDecoration: 'none', color: '#333' }}> Contact</Link>
+              <Link to={'/Contact'} style={{ textDecoration: 'none', color: '#333' }}>Contact</Link>
             </li>
           </ul>
         </nav>
