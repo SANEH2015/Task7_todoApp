@@ -9,15 +9,28 @@ Clone the project
 ```
 Go to the project directory
 ```bash
-  cd frondend 
+  cd frondend //for frontend server
+  cd Backend // for backend server
 ```
 Install dependencies
 ```bash
+// for frontend 
   npm install
+   antd
+   axios
+ // for Backend
+   bcrypt
+   better-sqlite3      
+   cors 
+   express    
+   morgan
+   sqlite3            
+  
 ```
 Start the react server
 ```bash
-  npm run start
+  npm run dev //frontend server
+  npm nodemon server.js //Backend server
 ```
 ## Tech Stack
-**Client:** React JS, HTML5, JavaScript, CSS3
+**Client:** React JS, HTML5, JavaScript, CSS3, Node.js,Sqlite,Express
